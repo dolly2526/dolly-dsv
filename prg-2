@@ -1,0 +1,18 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Simple dataset (Example: Study Hours vs Exam Scores)
+study_hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+exam_scores = [50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+# Regression Plot
+plt.figure(figsize=(8, 5))
+sns.regplot(x=study_hours, y=exam_scores, scatter_kws={'color': 'blue'}, line_kws={'color': 'red'})
+plt.title("Study Hours vs Exam Scores (Regression Plot)")
+plt.xlabel("Study Hours")
+plt.ylabel("Exam Score")
+plt.show()
+# Distribution Plot
+plt.figure(figsize=(8, 5))
+sns.histplot(exam_scores, kde=True, bins=5, color="purple")
+plt.title("Distribution of Exam Scores")
+plt.xlabel("Exam Scores")
+plt.show()
