@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Step 1: Create a sample dataset with missing values and outliers
+data = {
+ "Age": [25, 30, 35, np.nan, 45, 120, 50, 28, np.nan, 32, 200], # Outliers: 120, 200
+ "Salary": [30000, 40000, np.nan, 50000, 60000, 70000, np.nan, 80000, 100000, 150000, 500000]
+# Outlier: 500000
+}
+df = pd.DataFrame(data)
+print("Original Dataset:\n", df)
+# Step 2: Handling Missing Values (Fill with Median)
+df["Age"].fillna(df["Age"].median(), inplace=True)
+df["Salary"].fillna(df["Salary"].median(), inplace=True)
+print("\nDataset after handling missing values:\n", df)
+# Step 3: Detect Outliers using Box Plot
+plt.figure(figsize=(10, 5))
+sns.boxplot(data=df)
+plt.title("Box Plot for Outlier Detection")
+plt.show()
+# Step 4: Remove Outliers using IQR Method
+def remove_outliers(df, column):
+ Q1 = df[column].quantile(0.25) # 25th percentile
+ Q3 = df[column].quantile(0.75) # 75th percentile
+ IQR = Q3 - Q1 # Interquartile Range
+ lower_bound = Q1 - 1.5 * IQR
+ upper_bound = Q3 + 1.5 * IQR
+ return df[(df[column] >= lower_bound) & (df[column] <= upper_bound)] # Keep only within
+bounds
+# Apply outlier removal
+df_cleaned = remove_outliers(df, "Age")
+df_cleaned = remove_outliers(df_cleaned, "Salary")
+print("\nDataset after removing outliers:\n", df_cleaned)
+# Step 5: Box Plot After Cleaning
+plt.figure(figsize=(10, 5))
+sns.boxplot(data=df_cleaned)
+plt.title("Box Plot After Cleaning")
+plt.show()
